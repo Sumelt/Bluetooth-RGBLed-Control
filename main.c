@@ -244,7 +244,7 @@ void main(void)
 			  clean_rebuff();
 			  break;
 			} 
-                        
+                        clean_rebuff();
 	     }
 	 }
      }
