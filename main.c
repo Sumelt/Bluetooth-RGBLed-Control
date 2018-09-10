@@ -85,15 +85,8 @@ void clean_rebuff(void)
 
 void main(void)
 {
+  //CLK_CKDIVR &= (unsigned char)(~0x18);  // 16MHz high speed internal clock
   enableInterrupts(); //开启中断
-  
-  GPIO_Config(LED_GPIOB_PORT,LEDR_GPIO_PINS);
-  GPIO_Config(LED_GPIOD_PORT,LEDG_GPIO_PINS);
-  GPIO_Config(LED_GPIOC_PORT,LEDB_GPIO_PINS);
-  
-  GPIO_WriteHigh(LED_GPIOB_PORT,LEDR_GPIO_PINS);
-  GPIO_WriteHigh(LED_GPIOD_PORT,LEDG_GPIO_PINS);
-  GPIO_WriteHigh(LED_GPIOC_PORT,LEDB_GPIO_PINS);
   
   UART1_DeInit();  
   
@@ -104,6 +97,15 @@ void main(void)
   UART1_ITConfig(UART1_IT_RXNE_OR, ENABLE); //启用接收数据的中断
   
   
+  GPIO_Config(LED_GPIOB_PORT,LEDR_GPIO_PINS);
+  GPIO_Config(LED_GPIOD_PORT,LEDG_GPIO_PINS);
+  GPIO_Config(LED_GPIOC_PORT,LEDB_GPIO_PINS);
+  
+  GPIO_WriteHigh(LED_GPIOB_PORT,LEDR_GPIO_PINS);
+  GPIO_WriteHigh(LED_GPIOD_PORT,LEDG_GPIO_PINS);
+  GPIO_WriteHigh(LED_GPIOC_PORT,LEDB_GPIO_PINS);
+  
+  clean_rebuff();  
   while (1)
  {
       if(strcmp((const char *)uart_buff,"R&")==0)
@@ -244,9 +246,12 @@ void main(void)
 			  clean_rebuff();
 			  break;
 			} 
-                        clean_rebuff();
+                     else clean_rebuff();
+                        //clean_rebuff();
+                        
 	     }
 	 }
+         else clean_rebuff();
      }
   }
 }
